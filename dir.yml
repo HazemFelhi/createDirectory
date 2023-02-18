@@ -1,0 +1,8 @@
+---
+- name: playbook test
+  hosts: localhost
+  tasks:
+    - name: create directory
+      file:
+        state: directory
+        path: "/home/hazem/Documents/{{ ansible_date_time.minute}}"
