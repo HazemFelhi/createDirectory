@@ -5,4 +5,4 @@
     - name: create directory
       file:
         state: directory
-        path: "/home/hazem/Documents/{{dir_name}}"
+        path: "/home/hazem/Documents/{{ dir_name }}"
