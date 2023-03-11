@@ -1,3 +1,4 @@
+---
 - name: Consume messages from RabbitMQ
   rabbitmq_consumer:
     exchange: awxExchange
