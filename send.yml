@@ -1,0 +1,21 @@
+---
+- name: Send message to RabbitMQ
+  hosts: 172.31.4.183
+  vars:
+    rabbitmq_host: "172.31.4.183"
+    rabbitmq_port: "5672"
+    rabbitmq_user: "awxUser"
+    rabbitmq_pass: "awxuser"
+    rabbitmq_exchange: "awxExchange"
+    rabbitmq_key: "awxKey"
+    queue_name: "awxQueue"
+  tasks:
+    - name: Send message to rabbitmq
+      rabbitmq_queue:
+        login_user: "{{ rabbitmq_user }}"
+        login_password: "{{ rabbitmq_pass }}"
+        exchange: "{{ rabbitmq_exchange }}"
+        routing_key: "{{ rabbitmq_key }}"
+        body: "Hello RabbitMQ!"
+        host: "{{ rabbitmq_host }}"
+        port: "{{ rabbitmq_port }}"

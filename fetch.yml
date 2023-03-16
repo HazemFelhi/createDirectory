@@ -1,0 +1,11 @@
+- name: Fetch data from RabbitMQ queue
+  hosts: localhost
+  tasks:
+    - name: Get messages from queue
+      shell: |
+        rabbitmqadmin get queue=awxExchange count=1
+      register: result
+
+    - name: Print result
+      debug:
+        var: result.stdout_lines
