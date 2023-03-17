@@ -1,4 +1,11 @@
 ---
-- name: Get all messages off a queue
-  debug:
-    msg: "{{ lookup('community.rabbitmq.rabbitmq', url='amqp://guest:guest@192.168.0.10:5672/%2F', queue='awxQueue') }}"
+- name: test playbook
+  hosts: container_host
+  tasks:
+    - name: Lookup queue
+      set_fact:
+        contents: "{{ lookup('rabbitmq', url='amqp://awxuser:awxpass@172.29.0.6:5672/%2F', queue='awxQueue') }}"
+    
+    - name: Picked up message from the queue
+      debug:
+        msg: "the queue contained {{ contents }}"
