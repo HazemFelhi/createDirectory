@@ -1,6 +1,6 @@
 ---
 - name: test playbook
-  hosts: container_host
+  hosts: RabbitMQInv
   tasks:
     - name: Lookup queue
       set_fact:
