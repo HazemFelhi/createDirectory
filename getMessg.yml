@@ -1,10 +1,10 @@
 ---
 - name: test playbook
-  hosts: RabbitMQInv
+  hosts: RbMQ
   tasks:
     - name: Lookup queue
       set_fact:
-        contents: "{{ lookup('rabbitmq', url='amqp://awxuser:awxpass@172.26.0.2:5672/%2F', queue='awxQueue') }}"
+        contents: "{{ lookup('rabbitmq', url='amqp://admin:password@172.26.0.2:5672/%2F', queue='awxQueue') }}"
     
     - name: Picked up message from the queue
       debug:
