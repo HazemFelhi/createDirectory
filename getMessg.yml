@@ -1,6 +1,6 @@
 ---
 - name: test playbook
-  hosts: RbMQ
+  hosts: RabbitMQ Container
   tasks:
     - name: Lookup queue
       set_fact:
