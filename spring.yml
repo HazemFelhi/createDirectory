@@ -1,0 +1,8 @@
+---
+- name: Execute Spring Boot Project
+  hosts: web
+  tasks:
+    - name: Run Spring Boot Project
+      become: yes
+      become_user: root
+      shell: java -jar /home/hazem/Downloads/simple1/out/artifacts/simple_jar/simple.jar
