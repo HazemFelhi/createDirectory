@@ -3,9 +3,16 @@
   hosts: RbMQ
   tasks:
     - name: Lookup queue
+      #become: true
+      #become_user: root
+      #become: yes
       set_fact:
         contents: "{{ lookup('rabbitmq', url='amqp://admin:password@172.26.0.2:5672/%2F', queue='awxQueue') }}"
     
     - name: Picked up message from the queue
       debug:
         msg: "the queue contained {{ contents }}"
+  
+  vars:
+    ansible_user: root
+    ansible_ssh_pass: 123
