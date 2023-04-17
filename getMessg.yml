@@ -14,9 +14,5 @@
         msg: "the queue contained {{ contents }}"
   
   vars:
-    ansible_connection: ssh
     ansible_user: root
     ansible_ssh_pass: 123
-    ansible_sudo: true
-    ansible_become: true 
-    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
