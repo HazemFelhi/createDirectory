@@ -1,6 +1,6 @@
 ---
 - name: test playbook
-  hosts: localhost
+  hosts: RbMQ
   tasks:
     - name: Lookup queue
       set_fact:
