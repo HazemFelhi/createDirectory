@@ -1,6 +1,8 @@
 ---
 - name: test playbook
   hosts: localhost
+  collections:
+    - community.rabbitmq
   tasks:
     - name: Lookup queue
       #become: true
