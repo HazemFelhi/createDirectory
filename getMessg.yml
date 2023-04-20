@@ -2,7 +2,7 @@
 - name: test playbook
   hosts: localhost
   collections:
-    - community.rabbitmq
+    - rabbitmq.rabbitmq
   tasks:
     - name: Lookup queue
       #become: true
