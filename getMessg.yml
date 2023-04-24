@@ -15,6 +15,6 @@
       debug:
         msg: "the queue contained {{ contents }}"
   
-  vars:
-    ansible_user: root
-    ansible_ssh_pass: 123
+  #vars:
+    #ansible_user: root
+    #ansible_ssh_pass: 123
