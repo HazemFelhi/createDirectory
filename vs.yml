@@ -1,0 +1,9 @@
+---
+- hosts: Rb
+  tasks:
+    - name: Create file
+      file:
+        path: /home/hazem/myfile12.txt
+        state: touch
+
+
