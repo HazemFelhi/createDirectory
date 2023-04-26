@@ -1,20 +1,18 @@
----
-- name: test playbook
-  hosts: Rb
-  collections:
-    - rabbitmq.rabbitmq
-  tasks:
-    - name: Lookup queue
-      #become: true
-      #become_user: root
-      #become: yes
-      set_fact:
-        contents: "{{ lookup('rabbitmq', url='amqp://admin:password@172.26.0.2:5672/%2F', queue='awxQueue') }}"
-    
-    - name: Picked up message from the queue
-      debug:
-        msg: "the queue contained {{ contents }}"
-  
+- name: Fetch RabbitMQ queue data
+  hosts: localhost
   vars:
-    ansible_user: root
-    ansible_ssh_pass: 123
+    rabbitmq_username: admin
+    rabbitmq_password: admin
+  tasks:
+    - name: Fetch RabbitMQ queues
+      uri:
+        url: "https://rbmq-market-place.apps.openshift.sys.onetech-group.corp/api/queues"
+        method: GET
+        user: "{{ rabbitmq_username }}"
+        password: "{{ rabbitmq_password }}"
+        validate_certs: false
+        force_basic_auth: yes
+        return_content: yes
+      register: rabbitmq_queues
+    - debug:
+        var: rabbitmq_queues.content

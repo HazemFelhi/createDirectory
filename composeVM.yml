@@ -1,0 +1,43 @@
+- name: Deploy docker-compose file
+  hosts: Vma
+  become: yes
+  
+  tasks:
+    - name: Install Docker and Docker Compose
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+        #update_cache: yes # optional
+        
+    - name: Copy docker-compose.yml file
+      copy:
+        src: /home/hazem/Documents/stage_pfe/images/kill-bill/awx_rabbitmq/docker-compose.yml
+        dest: /home/ubuntu/docker-compose.yml
+      
+    - name: Launch docker-compose file
+      docker_compose:
+        project_src: /home/hazem/Documents/stage_pfe/images/kill-bill/awx_rabbitmq/docker-compose.yml
+        files:
+          - /home/ubuntu/docker-compose.yml
+        project_name: myproject
+        state: present
+        recreate: always
+        
+    - name: test playbook
+      hosts: Rb
+      collections:
+        - rabbitmq.rabbitmq
+      tasks:
+        - name: Lookup queue
+          set_fact:
+            contents: "{{ lookup('rabbitmq', url='amqp://admin:password@172.26.0.2:5672/%2F', queue='awxQueue') }}"
+    
+        - name: Picked up message from the queue
+          debug:
+            msg: "the queue contained {{ contents }}"
+  
+ # vars:
+  #  ansible_user: root
+   # ansible_ssh_pass: 123
