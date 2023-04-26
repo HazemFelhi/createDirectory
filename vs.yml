@@ -3,7 +3,7 @@
   tasks:
     - name: Create file
       file:
-        path: /home/hazem/myfile12.txt
+        path: /home/ubuntu/myfile12.txt
         state: touch
 
 
