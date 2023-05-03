@@ -1,6 +1,6 @@
 - name: RabbitMQ playbook
   hosts: VmCloud
-  become: yes
+  #become: yes
   vars:
     rabbitmq_user: "hazem"
     rabbitmq_password: "password"
