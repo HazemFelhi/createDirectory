@@ -1,0 +1,15 @@
+---
+- name: Fetch RabbitMQ queue data
+  hosts: VmCloud
+  become: yes
+  tasks:
+    - name: Create a queue on remote host
+      community.rabbitmq.rabbitmq_queue:
+        name: awxQueue12
+        login_user: admin
+        login_password: admin
+        login_host: "https://rbmq-market-place.apps.openshift.sys.onetech-group.corp/api/queues/%2F"
+
+
+            #  - debug:
+    #      var: rabbitmq_queues.json | json_query('auto_delete')

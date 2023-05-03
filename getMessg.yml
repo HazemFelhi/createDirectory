@@ -1,18 +1,44 @@
+---
 - name: Fetch RabbitMQ queue data
-  hosts: localhost
+  hosts: VmCloud
+  become: yes
   vars:
     rabbitmq_username: admin
     rabbitmq_password: admin
+    rabbitmq_host: "https://rbmq-market-place.apps.openshift.sys.onetech-group.corp"
+    rabbitmq_port: 5672
+    rabbitmq_queue: "awxQueue"
+    #rabbitmq_url: "https://rbmq-market-place.apps.openshift.sys.onetech-group.corp:15672/api"
+    #rabbitmq_queue: "awxQueue"
   tasks:
-    - name: Fetch RabbitMQ queues
-      uri:
-        url: "https://rbmq-market-place.apps.openshift.sys.onetech-group.corp/api/queues"
-        method: GET
-        user: "{{ rabbitmq_username }}"
-        password: "{{ rabbitmq_password }}"
-        validate_certs: false
-        force_basic_auth: yes
-        return_content: yes
-      register: rabbitmq_queues
-    - debug:
-        var: rabbitmq_queues.content
+     - name: Fetch RabbitMQ queues
+       uri:
+         url: "https://rbmq-market-place.apps.openshift.sys.onetech-group.corp/api/queues/%2F/awxQueue"
+         method: GET
+         headers: {'Content-Type': 'application/json'}
+         user: "{{ rabbitmq_username }}"
+         password: "{{ rabbitmq_password }}"
+         validate_certs: false
+         force_basic_auth: yes
+         return_content: yes
+       register: rabbitmq_queues
+
+    #  - name: Update Rabbitmq queue
+    #    uri:
+    #     url: "{{ rabbitmq_host }}/api/queues/%2F/{{ rabbitmq_queue }}"
+    #     method: PUT
+    #     user: "{{ rabbitmq_username }}"
+    #     password: "{{ rabbitmq_password }}"
+    #     validate_certs: false
+    #     body_format: json
+    #     body:
+    #       auto_delete: true
+    #       arguments:
+    #         x-expires: 3600000
+    #     headers:
+    #       Content-Type: "application/json"
+
+     - debug:
+        var: rabbitmq_queues.json | json_query('auto_delete')
+
+   

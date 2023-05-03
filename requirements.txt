@@ -7,7 +7,7 @@ packaging
 requests>=2.4.2
 xmltodict
 azure-cli-core==2.11.1
-python_version >= '3.8'
+python_version = '3.8'
 collection community.vmware
 google-auth
 openshift>=0.6.2

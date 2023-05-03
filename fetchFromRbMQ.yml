@@ -1,0 +1,25 @@
+- name: Consume message from RabbitMQ queue
+  hosts: VmCloud
+  vars:
+    rabbitmq_host: "rbmq-market-place.apps.openshift.sys.onetech-group.corp/api/queues/%2F"
+    rabbitmq_port: "5672"
+    rabbitmq_user: "admin"
+    rabbitmq_pass: "admin"
+    rabbitmq_vhost: "/"
+    rabbitmq_queue: "awxQueue"
+  tasks:
+    - name: Fetch messages from RabbitMQ queue
+      rabbitmq_vhost_queue_info:
+        login_host: "{{ rabbitmq_host }}"
+        login_port: "{{ rabbitmq_port }}"
+        login_user: "{{ rabbitmq_user }}"
+        login_password: "{{ rabbitmq_pass }}"
+        vhost: "{{ rabbitmq_vhost }}"
+        queue: "{{ rabbitmq_queue }}"
+      register: rabbitmq_queue_info
+
+    - name: Print messages from RabbitMQ queue
+      debug:
+        msg: "{{ item['payload'] }}"
+      loop: "{{ rabbitmq_queue_info['queue']['messages'] }}"
+
