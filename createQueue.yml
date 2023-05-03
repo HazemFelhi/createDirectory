@@ -1,6 +1,6 @@
 - name: RabbitMQ playbook
   hosts: VmCloud
-  #become: yes
+  become: yes
   vars:
     rabbitmq_user: "hazem"
     rabbitmq_password: "password"
@@ -8,6 +8,7 @@
     rabbitmq_exchange: "awxExchange"
     rabbitmq_queue: "awxQueue"
     rabbitmq_routing_key: "awxKey"
+    rabbitmq_port: "5672"
 
   tasks:
     - name: Install RabbitMQ Python package
@@ -53,21 +54,11 @@
         body: "Passage en force !!!!!"
       register: result
     
-    - name: Consume using Lookup plugin
-      set_fact:
-        contents: "{{ lookup('rabbitmq', url='amqp://hazem:password@10.112.60.53:5672/%2F', queue='awxQueue')}}"
-      environment:
-        PYTHONPATH: "/usr/local/python3.10/dist-packages"
-    
-    - name: Debug publish
-      debug:
-        var: result
-    
-    - name: Debug Consume
-      debug:
-        msg: "the queue contained {{ contents }}"
-
-      
+     - name: Consume using Lookup plugin
+       set_fact:
+         contents: "{{ lookup('rabbitmq', url='amqp://hazem:password@10.112.60.53:5672/%2F', queue='awxQueue') }}"
+       environment:
+         PYTHONPATH: "/usr/local/python3.10/dist-packages"
 
     # - name: Publish message
     #   shell: |
