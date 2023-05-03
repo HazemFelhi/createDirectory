@@ -54,11 +54,11 @@
         body: "Passage en force !!!!!"
       register: result
     
-     - name: Consume using Lookup plugin
-       set_fact:
-         contents: "{{ lookup('rabbitmq', url='amqp://hazem:password@10.112.60.53:5672/%2F', queue='awxQueue') }}"
-       environment:
-         PYTHONPATH: "/usr/local/python3.10/dist-packages"
+    - name: Consume using Lookup plugin
+      set_fact:
+        contents: "{{ lookup('rabbitmq', url='amqp://hazem:password@10.112.60.53:5672/%2F', queue='awxQueue') }}"
+      environment:
+        PYTHONPATH: "/usr/local/python3.10/dist-packages"
 
     # - name: Publish message
     #   shell: |
