@@ -55,7 +55,7 @@
     
     - name: Consume using Lookup plugin
       set_fact:
-        contents: "{{ lookup('rabbitmq', url='amqp://hazem:password@10.112.60.53:5672/%2F', queue='awxQueue') }}"
+        contents: "{{ lookup('rabbitmq', url='amqp://hazem:password@10.112.60.53:5672/%2F', queue='awxQueue', ansible_python_interpreter='/usr/bin/python') }}"
     
     - name: Debug publish
       debug:
