@@ -48,7 +48,7 @@
     - name: Publish message to Rabbitmq
       community.rabbitmq.rabbitmq_publish:
         url: "amqp://{{ rabbitmq_user }}:{{ rabbitmq_password }}@10.112.60.53:5672/%2F"
-        exchange: "{{ rabbitmq_exchange }}"
+        #exchange: "{{ rabbitmq_exchange }}"
         routing_key: "{{ rabbitmq_routing_key }}"
         queue: "{{ rabbitmq_queue }}"
         body: "Passage en force !!!!!"
