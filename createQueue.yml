@@ -4,59 +4,59 @@
   vars:
     rabbitmq_user: "hazem"
     rabbitmq_password: "password"
-    rabbitmq_vhost: "/"
+    rabbitmq_vhost: "awxHost"
     rabbitmq_exchange: "awxExchange"
     rabbitmq_queue: "awxQueue"
     rabbitmq_routing_key: "awxKey"
     rabbitmq_port: "5672"
 
   tasks:
-    - name: Install RabbitMQ Python package
-      pip:
-        name: pika
 
-    - name: Declare exchange
-      community.rabbitmq.rabbitmq_exchange:
-        name: "{{ rabbitmq_exchange }}"
-        state: present
-        vhost: "{{ rabbitmq_vhost }}"
-        login_user: "{{ rabbitmq_user }}"
-        login_password: "{{ rabbitmq_password }}"
+     - name: Declare exchange
+       community.rabbitmq.rabbitmq_exchange:
+         name: "{{ rabbitmq_exchange }}"
+         state: present
+         vhost: "{{ rabbitmq_vhost }}"
+         login_user: "{{ rabbitmq_user }}"
+         login_password: "{{ rabbitmq_password }}"
 
-    - name: Declare queue
-      community.rabbitmq.rabbitmq_queue:
-        name: "{{ rabbitmq_queue }}"
-        state: present
-        durable: false
-        vhost: "{{ rabbitmq_vhost }}"
-        login_user: "{{ rabbitmq_user }}"
-        login_password: "{{ rabbitmq_password }}"
+     - name: Declare queue
+       community.rabbitmq.rabbitmq_queue:
+         name: "{{ rabbitmq_queue }}"
+         state: present
+         durable: false
+         vhost: "{{ rabbitmq_vhost }}"
+         login_user: "{{ rabbitmq_user }}"
+         login_password: "{{ rabbitmq_password }}"
 
 
-    - name: Bind queue to exchange
-      community.rabbitmq.rabbitmq_binding:
-        name: "{{ rabbitmq_exchange }}"
-        routing_key: "{{ rabbitmq_routing_key }}"
-        state: present
-        vhost: "{{ rabbitmq_vhost }}"
-        destination_type: "queue"
-        destination: "{{ rabbitmq_queue }}"
-        login_user: "{{ rabbitmq_user }}"
-        login_password: "{{ rabbitmq_password }}"
+     - name: Bind queue to exchange
+       community.rabbitmq.rabbitmq_binding:
+         name: "{{ rabbitmq_exchange }}"
+         routing_key: "{{ rabbitmq_routing_key }}"
+         state: present
+         vhost: "{{ rabbitmq_vhost }}"
+         destination_type: "queue"
+         destination: "{{ rabbitmq_queue }}"
+         login_user: "{{ rabbitmq_user }}"
+         login_password: "{{ rabbitmq_password }}"
 
 
-    - name: Publish message to Rabbitmq
-      community.rabbitmq.rabbitmq_publish:
-        url: "amqp://{{ rabbitmq_user }}:{{ rabbitmq_password }}@10.112.60.53:5672/%2F"
-        #exchange: "{{ rabbitmq_exchange }}"
-        routing_key: "{{ rabbitmq_routing_key }}"
-        queue: "{{ rabbitmq_queue }}"
-        body: "Passage en force !!!!!"
-      register: result
+     - name: Publish message to Rabbitmq
+       community.rabbitmq.rabbitmq_publish:
+         url: "amqp://{{ rabbitmq_user }}:{{ rabbitmq_password }}@10.112.60.53:5672/awxHost"
+         exchange: "{{ rabbitmq_exchange }}"
+         routing_key: "{{ rabbitmq_routing_key }}"
+         queue: "{{ rabbitmq_queue }}"
+         body: "Passage en force !!!!!"
+       register: result
     
-    - name: Consume using Lookup plugin
-      set_fact:
-        contents: "{{ lookup('rabbitmq', url='amqp://hazem:password@10.112.60.53:5672/%2F', queue='awxQueue') }}"
+     - name: debug
+       debug:
+         var: result
+    
+
+
       # environment:
       #   PYTHONPATH: "/usr/local/python3.10/dist-packages"
 

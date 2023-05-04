@@ -1,19 +1,18 @@
 ---
 - name: Get message from RabbitMQ queue
-  hosts: Rb
+  hosts: VmCloud
   become: yes
-  collections:
-    - rabbitmq.rabbitmq
+
   tasks:
-    - name: Get message
-      rabbitmq_queue:
-        login_host: 172.26.0.2
-        login_user: admin
-        login_password: password
-        name: awxQueue
-        vhost: /
-        state: present
-      register: result
-    - name: Display message
+
+    - name: Install RabbitMQ Python package
+      pip:
+        name: pika
+
+    - name: Consume using Lookup plugin
+      set_fact:
+        contents: "{{ lookup('rabbitmq', url='amqp://hazem:password@10.112.60.53:5672/awxHost', queue='awxQueue') }}"
+
+    - name: debug
       debug:
-        var: result
+        msg: "the queue contained {{ contents }}"
