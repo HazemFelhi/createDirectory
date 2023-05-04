@@ -8,7 +8,7 @@
     - name: Install RabbitMQ Python package
       pip:
         name: pika
-        satate: present
+        state: present
 
     - name: Consume using Lookup plugin
       set_fact:
